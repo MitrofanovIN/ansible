@@ -1,0 +1,214 @@
+all:
+   hosts:
+    localhost:
+      ansible_host: 192.168.12.110
+    vn40:
+      ansible_host: 192.168.12.40
+    vibor2019-214:
+      ansible_host: 192.168.12.214
+    50-plus:
+      ansible_host: 192.168.13.20
+    ats-cms-web:
+      ansible_host: 192.168.12.215
+    test1:
+      ansible_host: 192.168.12.110
+    test2:
+      ansible_host: 192.168.12.111
+    redmine:
+      ansible_host: 192.168.12.18
+    nginx2:
+      ansible_host: 81.23.1.57
+      ansible_port: 1022
+    rms-prod:
+      ansible_host: 192.168.12.150
+    gw2:
+      ansible_host: 192.168.12.1
+    gw:
+      ansible_host: 81.23.1.57
+      ansible_port: 1022
+    aster:
+      ansible_host: 192.168.12.179
+    watchdog:
+      ansible_host: 192.168.12.147
+    linguist:
+      ansible_host: 192.168.12.161
+    demo-test:
+      ansible_host: 192.168.12.79
+    yandex:
+      ansible_host: 192.168.12.66
+    yandex2:
+      ansible_hsot: 192.168.12.67
+    host_1:
+      ansible_host: 192.168.12.30
+    host_2:
+      ansible_host: 192.168.12.32
+    host_3:
+      ansible_host: 192.168.12.232
+    web_239:
+      ansible_host: 192.168.12.239
+    mysql.234:
+      ansible_host: 192.168.12.234
+    sms.233:
+      ansible_host: 192.168.12.233
+    air99:
+      ansible_host: 192.168.12.99
+    gitlab:
+      ansible_host: 192.168.12.19
+    air95:
+      ansible_host: 192.168.12.95
+    dit-transcribing:
+      ansible_host: 192.168.12.196	
+    rgidro:
+      ansible_host: 192.168.12.112
+   # vm_236:
+   #   ansible_host: 192.168.12.236
+    stat:
+      ansible_host: 192.168.12.212
+    stats:
+      ansible_host: 192.168.12.213
+    or:
+      ansible_host: 192.168.12.70
+    or2:
+      ansible_host: 192.168.12.92
+    nrd:
+      ansible_host: 192.168.12.109
+    ling2:
+      ansible_host: 192.168.12.143
+    sn2:
+      ansible_host: 192.168.12.144
+    #sn2_173:
+    #  ansible_host: 192.168.12.173
+    devzel:
+      ansible_host: 192.168.12.120
+    devkoz:
+      ansible_host: 192.168.12.121
+    dev123:
+      ansible_host: 192.168.12.123
+    devper:
+      ansible_host: 192.168.12.124
+    devbaz:
+      ansible_host: 192.168.12.125
+    devmal:
+      ansible_host: 192.168.12.126
+    devraz:
+      ansible_host: 192.168.12.127
+    bd201:
+      ansible_host: 192.168.12.201
+    chatbot:
+      ansible_host: 192.168.12.142
+    dit-dev-rel:
+      ansible_host: 192.168.12.145
+    dit-transcrid-snr-l:
+      ansible_host: 192.168.12.156
+  #  contacts:
+  #    ansible_host: 192.168.12.15
+    vniias:
+      ansible_host: 192.168.12.183
+    sber77:
+      ansible_host: 192.168.12.77
+    astVN75:
+      ansible_host: 192.168.12.75
+    tools:
+      ansible_host: 192.168.12.116
+    ivr96:
+      ansible_host: 192.168.12.96
+    mail:
+      ansible_host: 192.168.12.10
+    dev_transcrib_:
+      ansible_host: 192.168.12.161
+    dit_tran_193:
+      ansible_host: 192.168.12.193
+    dit_tran_194:
+      ansible_host: 192.168.12.194
+    dit_tran_202:
+      ansible_host: 192.168.12.202
+    dit_tran_203:
+      ansible_host: 192.168.12.203
+    dit_tran_204:
+      ansible_host: 192.168.12.204
+    dit_tran_205:
+      ansible_host: 192.168.12.205
+    dit_tran_207:
+      ansible_host: 192.168.12.207
+    dit_tran_191:
+      ansible_host: 192.168.12.191
+    vm_sn_159:
+#      ansible_host: 192.168.12.159
+#    mail_141:
+      ansible_host: 192.168.12.141
+    sentry_208:
+      ansible_host: 192.168.12.208
+    ftp:
+      ansible_host: 192.168.12.55
+    edc216:
+      ansible_host: 192.168.12.216
+    edc217:
+      ansible_host: 192.168.12.217
+    edcdb219:
+      ansible_host: 192.168.12.219
+    edcdb218:
+      ansible_host: 192.168.12.218
+    edcdb221:
+      ansible_host: 192.168.12.221
+    sn209:
+      ansible_host: 192.168.12.209
+#    vibor2019:
+#      ansible_host: 192.168.12.235
+    vibor2019bd:
+      ansible_host: 192.168.12.237
+    asr11:
+      ansible_host: 192.168.13.11
+    vn12:
+      ansible_host: 192.168.13.12
+    vn1018:
+      ansible_host: 192.168.13.18
+    vn1017:
+      ansible_host: 192.168.13.17
+    craft:
+      ansible_host: 192.168.35.210
+    mailats:
+      ansible_host: 192.168.13.20
+    ats_nlu:
+      ansible_host: 192.168.13.21
+    son:
+      ansible_host: 192.168.13.22
+    mail_stage:
+      ansible_host: 192.168.13.24
+    mail_prod:
+      ansible_host: 192.168.13.25
+    mail_vn10_1:
+      ansible_host: 192.168.13.13
+    mail_vn10_2:
+      ansible_host: 192.168.13.16
+    domodedovo_asr:
+      ansible_host: 192.168.13.27
+    domodedovo_bd:
+      ansible_host: 192.168.13.28
+    pochta_prod:
+      ansible_host: 192.168.13.29
+    pochta_prod_bd:
+      ansible_host: 192.168.13.31
+    sonatype:
+      ansible_host: 192.168.13.23
+    gw13.1:
+      ansible_host: 192.168.13.2
+    ast_krasnov:
+      ansible_host: 192.168.13.34
+    dit_dev_edc:
+      ansible_host: 192.168.12.160
+
+
+
+#    vitaexpress-web:
+#      ansible_host: 89.108.116.247
+#    vitaexpress-db:
+#      ansible_host: 89.108.125.9
+#  children:
+#    development:
+#      hosts:
+#        vitaexpress-dev-web:
+#        vitaexpress-dev-db:
+#    production:
+#      hosts:
+#        vitaexpress-web:
+#        vitaexpress-db:

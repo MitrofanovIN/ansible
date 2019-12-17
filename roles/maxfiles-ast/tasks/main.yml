@@ -1,0 +1,32 @@
+---
+# tasks file for maxfiles-ast
+- name: Добавление в asterisk.conf 
+  lineinfile:
+    path: '/etc/asterisk/asterisk.conf'
+    regexp: 'maxfiles = 10000'
+    line: 'maxfiles = 20000'
+
+- name: Остановка службы
+  service:
+    name: "asterisk"
+    state: restarted
+
+- name: Проверим существавание диска
+  shell: 'cat /etc/hostname'
+  register: hn
+  tags:
+    - hn
+
+- debug: var={{item}}
+  with_items: hn.stdout_lines
+  tags:
+    - hn
+
+- name: Добавление в /etc/hosts
+  lineinfile:
+    path: '/etc/hosts'
+    regexp: '{{ansible_host  }}'
+ #   line: ''
+    line: ' {{ansible_host }} {{ hn.stdout }}'
+  tags:
+    - hn

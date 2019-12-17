@@ -1,0 +1,85 @@
+---
+# tasks file for create-user
+
+
+- name: Проверим в  /etc/group sudo
+  shell: "cat /etc/group  | grep sudo | awk '{print $1}' | cut -f1 -d:"
+  register: s
+  tags:
+    - one
+    - copy
+
+- debug: var=s.stdout_lines
+  tags:
+    - one
+    - copy
+
+
+- name: Проверим в  /etc/group wheel
+  shell: "cat /etc/group  | grep wheel | awk '{print $1}' | cut -f1 -d:"
+  register: w
+  tags:
+    - one
+    - copy
+
+- debug: var=w.stdout_lines
+  tags:
+    - one
+    - copy
+
+
+
+
+- name: Creating user "{{ uusername }}" with admin access
+  user: 
+    name: "{{ uusername }}"
+    password: "{{ ps | password_hash('sha512') }}"
+    groups: '{{ item }}'
+    append: yes
+    state: present
+    createhome: yes
+  ignore_errors: yes
+  with_items:
+#    - wheel
+    - sudo
+    - www-data
+  when: "'wheel' not in s.stdout"
+#  when:  assigned_role  == "yes"
+
+- name: Creating user "{{ uusername }}" with admin access
+  user:
+    name: "{{ uusername }}"
+    password: "{{ ps | password_hash('sha512') }}"
+    groups: '{{ item }}'
+    append: yes
+    state: present
+    createhome: yes
+  ignore_errors: yes
+  with_items:
+    - wheel
+#    - sudo
+#    - www-data
+  when: "'sudo' not in w.stdout"
+
+
+#- name: Creating users "{{ uusername }}" without admin access
+#  user:
+#    name: "{{ uusername }}"
+#    password: "{{ uusername | password_hash('sha512') }}"
+#  when:  assigned_role == "no"
+
+- name: Expiring password for user "{{ uusername }}"
+  shell: chage -d 0 "{{ uusername }}"
+
+- name: Expiring password for user "{{ uusername }}"
+  shell: usermod -s /bin/bash "{{ uusername }}"
+
+- name: add couchbase host to properties
+  lineinfile:
+    dest: '{{ item }}'
+    line: umask 002
+  with_items:
+    - '/home/{{ uusername  }}/.profile'
+    - '/home/{{ uusername  }}/.bashrc'
+  tags:
+    - bashrc

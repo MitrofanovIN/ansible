@@ -1,0 +1,34 @@
+---
+
+# tasks file for create-domain
+- name: Добавление в bind atsaero.ru
+  lineinfile:
+    path: "{{ bind_path }}atsaero.ru"
+    regexp: "{{ item }}"
+    line: '{{ item }} IN A 81.23.1.57'
+  with_items: "{{ domain }}"
+    
+ # check_mode: yes	
+
+- name: Добавление в bind atsaero.ru.local
+  lineinfile:
+    path: "{{ bind_path }}atsaero.ru.local"
+    regexp: "{{ item }}"
+    line: '{{ item }} IN A 81.23.1.57'
+  with_items: "{{ domain }}"
+
+
+- name: Добавление в bind atsaero.ru.12.0
+  lineinfile:
+    path: "{{ bind_path }}atsaero.ru.12.0"
+    regexp: "{{ item }}"
+    line: '{{ item }} IN A 81.23.1.57'
+  with_items: "{{ domain }}"
+
+
+
+- name: Reload BIND9
+  service:
+    name: bind9
+    state: reloaded
+ # check_mode: yes

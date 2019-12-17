@@ -1,0 +1,5 @@
+ast_path: "/etc/asterisk/"
+version: "16.5.0"
+ip_vn: "192.168.12.221"
+uusername: "tes"
+ip_host: "192.168.12.217"

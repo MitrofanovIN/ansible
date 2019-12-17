@@ -1,0 +1,86 @@
+---
+# tasks file for check-mnt
+- name: Проверим существавание диска
+  shell: cat /etc/fstab  | grep nfs | awk '{print $1}'
+  register: part_res
+  tags:
+    - one
+    - copy
+
+- debug: var=part_res.stdout_lines
+  tags:
+    - one
+    - copy
+
+- name: Проверим существавание диска
+  shell: cat /etc/fstab | grep nfs | awk '{ print $2 }'
+  register: path_res
+  tags:
+    - one
+    - copy
+
+- debug: var=path_res.stdout
+  tags:
+    - one
+    - copy
+
+
+#- name: Добавление в /tmp/ansible
+#  lineinfile:
+#    path: '/tmp/list'
+#    regexp: '{{ansible_host  }}'
+ #   line: ''
+#    line: ' {{ansible_host }} {{ item.1 }} {{item.0}}'
+#  with_nested:
+#    - '{{ path_res.stdout_lines }}'
+#    - '{{ part_res.stdout_lines }}'
+#  delegate_to: localhost 
+#  tags:
+#    - hn
+
+
+- name: Проверим существавание диска
+  command: umount -f -l {{ item }}
+  with_items:
+    - "{{ path_res.stdout_lines }}"
+#    - [ 'xvdb1' , 'xvdc1', 'xvde1' , 'xvdf1' , 'xvdg1' ]
+#  when: "'{{ item.1 }}' != '{{ item.0 }}'"
+##  when: "'/dev/xvda' not in part_res.stdout"
+##  register: part_res
+#  ignore_errors: yes
+  tags:
+    - one
+    - copy
+
+
+#- name: Проверим существавание диска
+#  command: umount -f -l /dev/{{ item.1 }}
+#  with_nested:
+#    - "{{ part_res.stdout_lines }}"
+#    - [ 'xvdb1' , 'xvdc1', 'xvde1' , 'xvdf1' , 'xvdg1' ]
+#  when: "'{{ item.1 }}' != '{{ item.0 }}'"
+##  when: "'/dev/xvda' not in part_res.stdout"
+##  register: part_res
+#  ignore_errors: yes
+#  tags:
+#    - one
+#    - copy
+
+- name: Создадим файл
+  shell:  cd {{ item }} &&  if [ -f mnt ]; then echo "Файл существует"; else touch mnt; fi
+##if [ -f "{{ item.0 }}/mnt" ]; then echo "Файл существует"; fi 
+  with_items:
+    - '{{ path_res.stdout_lines }}'
+# #   - [ 'xvdb1' , 'xvdc1', 'xvde1' , 'xvdf1' , 'xvdg1' ]
+# #  when: "'{{ item.1 }}' != '{{ item.0 }}'"
+  tags:
+    - one
+
+- name: Замонтируем
+  shell: mount -a
+  register: part_res
+  tags:
+    - one
+    - copy
+    - mount
+

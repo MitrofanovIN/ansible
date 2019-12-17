@@ -1,0 +1,83 @@
+---
+# tasks file for rewrite-apache
+
+- name: Проверка установки пакетов php7.3
+  become: yes
+  become_method: sudo
+  become_user: root
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - php7.3
+    - php7.3-cli
+    - php7.3-common
+    - apache2
+    - php7.3-fpm
+    - libapache2-mod-php
+
+
+- name: Создаем папку /var/www/html/site
+  file:
+    path: "{{root_www}}dit-rms-web3" 
+    state: directory
+    mode: 0775
+
+- name: Создание папки /var/www/hmml/site/public
+  file:
+    path: "{{ root_site }}public" 
+    state: directory
+    mode: 0775
+
+- name: Создание файла index.php
+  copy:
+    content: ""   
+    dest: "{{ root_site }}public/index.php" 
+    force: no
+
+- name: Создание файла htaccess
+  copy:
+    content: "" 
+    dest: "{{ root_site }}public/.htaccess" 
+    force: no
+  mode: 0775
+
+
+
+- template:
+    src: /opt/ansible/roles/rewrite-apache/templates/htaccess.j2
+    dest: "{{ root_site }}public/.htaccess" 
+
+- template:
+    src: /opt/ansible/roles/rewrite-apache/templates/index.j2
+    dest: "{{ root_site }}public/index.php" 
+
+- template:
+    src: /opt/ansible/roles/rewrite-apache/templates/default.j2
+    dest: "/etc/apache2/sites-available/{{ name_vh }}" 
+
+- name: Создание симлинка
+  file:
+    src: "{{ sa }}{{ name_vh }}" 
+    dest: "{{ se  }}{{ name_vh }}" 
+    owner: root
+    group: root
+    state: link
+#  with_items:  "{{ domain }}" 
+#  tags:
+#    - symlink
+
+
+
+- name: Добавление модуля rewrite
+  shell: '{{ item }}'
+  with_items:
+    - a2enmod rewrite
+  tags:
+    - php5.6
+
+- name: Restart NGINX
+  service:
+    name: apache2
+    state: restarted
+

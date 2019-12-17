@@ -1,0 +1,100 @@
+---
+# tasks file for nginx_php
+
+- name: Проверка установки пакетов php7.2
+  become: yes
+  become_method: su
+  become_user: root
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apt-transport-https
+    - lsb-release
+    - ca-certificates
+
+#- name: Скачивание Deploid
+#  get_url:
+#    url: https://packages.sury.org/php/apt.gpg
+#    dest: /home/mitrofanov/
+#  tags:
+#     - dev
+
+#- name: Компиляция deploid
+#  command: '{{ item }}  chdir=/home/mitrofanov/'
+#  with_items:
+#    -  wget https://packages.sury.org/php/apt.gpg -O- | sudo apt-key add -
+#  tags:
+#    - key
+
+- name: Компиляция deploid
+  command: '{{ item }}  chdir=/home/mitrofanov/'
+  with_items:
+    -  curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash
+  tags:
+    - key
+
+#- name: Add an Apt signing key, uses whichever key is at the URL
+#  apt_key:
+#    url: https://packages.sury.org/php/apt.gpp
+#    state: present
+#  tags:
+#    - keys
+
+#- name: Создание файла index.php
+#  copy:
+#    content: ""
+#    dest: /etc/apt/sources.list.d/php.list
+#    force: no
+
+#- name: Замена в конф файле modules
+#  lineinfile:
+#    path: "/etc/apt/sources.list.d/php.list"
+#    regexp: "deb https://packages.sury.org/php/"
+#    line: deb https://packages.sury.org/php/ stertch main
+
+#- name: Add repositories
+#  apt_repository: repo='ppa:ondrej/php' state=present
+#  tags:
+#    - rep
+
+- name: Update all packages to the latest version
+  apt:
+    upgrade: dist
+
+- name: Проверка установки пакетов php7.2
+  become: yes
+  become_method: sudo
+  become_user: root
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - sudo
+    - php7.2-common
+    - php7.2-curl
+    - php7.2-fpm
+    - php7.2-gd
+    - php7.2-json
+    - php7.2-mbstring
+    - php7.2-mysql
+    - php7.2-opcache
+    - php7.2-readline
+    - php7.2-xml
+    - php7.2-xmlrpc
+    - php7.2-xdebug
+    - php7.2-memcached
+    - php7.2-memcache
+    - php7.2-apcu
+    - php7.2-zip
+    - php7.2-uuid
+    - php5.6-common
+    - gcc
+    - make
+    - python
+#    - npm
+    - nodejs
+    - nginx
+    - git
+  tags:
+    - dev

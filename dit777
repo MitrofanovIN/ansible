@@ -1,0 +1,24 @@
+all:
+   hosts:
+    bd22:
+      ansible_host: 192.168.12.22
+    asr23:
+      ansible_host: 192.168.12.23
+    bd24:
+      ansible_host: 192.168.12.24
+    host_25:
+      ansible_host: 192.168.12.25
+    asr26:
+      ansible_host: 192.168.12.26
+    asr27:
+      ansible_host: 192.168.12.27
+    bd_ufms28:
+      ansible_host: 192.168.12.28
+    asr29:
+      ansible_host: 192.168.12.29
+    bd_36:
+      ansible_host: 192.168.12.36
+    dit33:
+      ansible_host: 192.168.12.33
+    dit_edc:
+      ansible_host: 192.168.12.35

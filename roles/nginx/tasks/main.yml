@@ -1,0 +1,62 @@
+---
+# tasks file for nginx
+- name: Найти файлы в директории
+  command: "ls {{nginx_path}}"
+  register: dir_out
+
+- debug: var={{item}}
+  with_items: dir_out.stdout_lines
+
+- name: Создание файла 
+  copy:
+    content: ""
+    dest: "{{ nginx_path }}{{ item }}"
+    force: no
+  with_items: "{{ domain }}"
+
+
+- template:
+    src: /opt/ansible/roles/nginx/templates/virtual.j2
+    dest: "{{ nginx_path  }}{{ item }}"
+  with_items: "{{ domain }}"
+
+
+- name: Создание файла 80
+  copy:
+    content: ""
+    dest: "{{ nginx_path }}{{ item }}"
+    force: no
+  with_items: "{{ domain80 }}"
+
+
+- template:
+    src: /opt/ansible/roles/nginx/templates/virtual80.j2
+    dest: "{{ nginx_path  }}{{ item }}80"
+  with_items: "{{ domain }}"
+
+- name: Создание симлинка 
+  file:
+    src: "{{ nginx_path  }}{{ item }}"
+    dest: "{{ link_path  }}{{ item }}"
+    owner: root
+    group: root
+    state: link
+  with_items: "{{ domain }}"
+  tags:
+    - symlink
+
+- name: Создание Symlink 80
+  file:
+    src: "{{ nginx_path  }}{{ item }}80"
+    dest: "{{ link_path  }}{{ item }}80"
+    owner: root
+    group: root
+    state: link
+  with_items: "{{ domain80 }}"
+  tags:
+    - symlink
+
+- name: Restart NGINX
+  service:
+    name: nginx
+    state: restarted

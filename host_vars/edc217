@@ -1,0 +1,17 @@
+ast_path: "/etc/asterisk/"
+version: "16.5.0"
+ip_vn: "192.168.12.218"
+ip_pub: "192.168.12.221"
+uusername: "zelenov"
+
+parth: "xvdb"
+partt: "xvdc"
+partv: "xvde"
+parto: "xvdf"
+
+path_srch: "/home/"
+path_srct: "/tmp/"
+path_srcv: "/var/"
+path_srco: "/opt/"
+
+#path_to_fstab: "192.168.12.217:/opt/ats/dit-capremont-asr/release/shared/records           /mnt/records_yandex   nfs ro,hard,bg,timeo=10,intr   0 0"

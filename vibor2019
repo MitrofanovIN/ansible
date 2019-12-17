@@ -1,0 +1,11 @@
+all:
+   hosts:
+    vibor2019:
+      ansible_host: 192.168.12.235	
+    vibor2019-2:
+      ansible_host: 192.168.12.238
+    vibor2019-3:
+      ansible_host: 192.168.12.240
+    vibor2019-4:
+      ansible_host: 192.168.12.206
+

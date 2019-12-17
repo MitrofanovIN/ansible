@@ -1,0 +1,17 @@
+- hosts: dit-dev-rel
+#  vars:
+#    root_www:
+#      - "/var/www/html/"
+#    root_site:
+#      - "/var/www/html/site/"
+#    name_vh:
+#      - "dev-bot-release.conf"
+#    sa:
+#      - "/etc/apache2/sites-available/"
+#    se:
+#      - "/etc/apache2/sites-enabled/"
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: rewrite-apache }

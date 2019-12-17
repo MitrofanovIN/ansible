@@ -1,0 +1,18 @@
+---
+# tasks file for unblock-disk
+- name: Разблокировка read-only
+  # This works
+  command: '{{ item }}'
+  with_items:
+    - fsck /dev/xvda2 -f
+    - mount -o remount,rw  /dev/xvda2
+    - bash /root/bin/mount.sh   
+
+- name: Перезапуск служб
+  service:
+    name: "{{ item }}"
+    state: started
+  with_items:
+    - apache2
+    - mysql
+

@@ -1,0 +1,11 @@
+all:
+   hosts:
+    dit_tran_58:
+      ansible_host: 192.168.12.58
+    dit_tran_61:
+      ansible_host: 192.168.12.61
+    dit_tran_62:
+      ansible_host: 192.168.12.62
+#    dit_tran_191:
+#      ansible_host: 192.168.12.191
+

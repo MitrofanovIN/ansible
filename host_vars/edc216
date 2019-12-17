@@ -1,0 +1,14 @@
+ast_path: "/etc/asterisk/"
+version: "16.5.0"
+ip_vn: "192.168.12.218"
+uusername: "zelenov"
+parth: "xvdb"
+partt: "xvdc"
+partv: "xvde"
+parto: "xvdf"
+
+path_srch: "/home/"
+path_srct: "/tmp/"
+path_srcv: "/var/"
+path_srco: "/opt/"
+

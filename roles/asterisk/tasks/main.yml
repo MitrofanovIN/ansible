@@ -1,0 +1,627 @@
+---
+# tasks file for asterisk
+
+
+- name: Проверка установки пакетов php7.2
+  become: yes
+  become_method: sudo
+  become_user: root
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - php7.2
+    - php7.2-cli
+    - php7.2-common
+    - php7.2-curl
+    - php7.2-fpm
+    - php7.2-gd
+    - php7.2-json
+    - php7.2-mbstring
+    - php7.2-mysql
+    - php7.2-opcache
+    - php7.2-readline
+    - php7.2-xml
+    - php7.2-xmlrpc
+    - php-xdebug
+    - php-memcached
+    - php-memcache
+    - php-apcu
+    - php7.2-zip
+    - php7.2-uuid
+    - gcc
+    - python
+    - python-pexpect
+    - make 
+    - cmake
+    - libvpb1
+    - libaio1
+#    - libssl1.0-dev
+    - npm
+    - nodejs
+#    - ffmpeg
+#    - sox 
+    - gitlab-runner
+    - automake
+    - re2c
+    - mysql-server
+    - libvpb1
+    - libaio1
+    - libssl1.0-dev
+    - libxml2-utils
+  tags:
+    - asterisk
+    - dev
+    - install
+
+
+- name: Создаем папку distrib
+  file:
+    path: /opt/distrib
+    state: directory
+    mode: 0775
+  tags:
+    - vbd
+    - asterisk
+    - tomita
+
+
+- name: Скачивание Janson
+#  become: yes
+#  become_method: sudo
+#  become_user: root
+  get_url:
+    url: http://www.digip.org/jansson/releases/jansson-2.5.tar.gz
+    dest: /opt/distrib
+  tags:
+    - asterisk
+
+
+- name: Распаковываем архив Janson
+  unarchive:
+    src: /opt/distrib/jansson-2.5.tar.gz
+    dest: /opt/distrib/
+    remote_src: yes
+  tags:
+    - asterisk
+
+
+- name: Установка Jansson
+  # This works
+  command: '{{ item }} chdir=/opt/distrib/jansson-2.5/'
+  with_items:
+    - ./configure '--prefix=/usr/' 
+    - make
+    - make install    
+    - ldconfig
+  tags:
+    - asterisk
+
+
+- name: Добавление пользователя Asterisk
+  user:
+    name: asterisk
+    append: yes
+  tags:
+    - asterisk
+
+
+
+- name: Скачивание Asterisk
+  get_url:
+  ##  url:  https://downloads.asterisk.org/pub/telephony/asterisk/asterisk-15-current.tar.gz
+    url:  https://downloads.asterisk.org/pub/telephony/asterisk/old-releases/asterisk-16.6.1.tar.gz
+    dest: /opt/distrib
+  tags:
+    - asterisk
+    - zzz
+
+
+- name: Распаковываем архив Asterisk
+  unarchive:
+    src: /opt/distrib/asterisk-16.6.1.tar.gz
+    dest: /opt/distrib/
+    remote_src: yes
+  tags:
+    - asterisk
+    - zzz
+
+- name: Запуск скрипта проверки модулей и обновления необходимых пакетов
+  expect:
+    command: 'bash /opt/distrib/asterisk-{{ version }}/./contrib/scripts/install_prereq install'
+    responses:
+      Хотите продолжить : "y"
+    timeout: 360
+  tags:
+    - asterisk
+    - zzz
+
+- name: Установка Asterisk
+  # This works
+  command: '{{ item }} chdir=/opt/distrib/asterisk-{{ version }}/'
+  with_items:
+    - ./configure
+#   - ./configure --with-jansson-bundled  ###### FOT Ubuntu 16
+    - make
+    - make install
+    - make samples
+    - make config
+    - make install-logrotate
+  tags:
+    - asterisk
+    - zzz    
+
+- name: Скачивание UniMRCP-DEPS
+  get_url:
+    url: http://www.unimrcp.org/project/component-view/unimrcp-deps-1-5-0-tar-gz/download
+    dest: /opt/distrib/
+  tags:
+    - asterisk
+    - unimrcp    
+
+- name: Распаковываем архив Asterisk
+  unarchive:
+    src: /opt/distrib/unimrcp-deps-1.5.0.tar.gz
+    dest: /opt/distrib/
+    remote_src: yes
+  tags:
+    - asterisk
+    - unimrcp
+
+- name: Изменение в файле build-dep-libs.sh
+  lineinfile:
+    path: /opt/distrib/unimrcp-deps-1.5.0/build-dep-libs.sh
+    regexp: ./configure --with-glib=
+    line: ./configure --with-glib=no --without-doxygen --prefix=${SOFIA_INSTALLDIR} --without-openssl
+  tags:
+    - asterisk
+    - unimrcp
+
+
+- name: Замена pwd в build-dep.sh
+  lineinfile:
+    path: /opt/distrib/unimrcp-deps-1.5.0/build-dep-libs.sh
+    regexp: ROOTDIR=`pwd`
+    line: ROOTDIR=`/opt/distrib/unimrcp-deps-1.5.0`
+  tags:
+    - asterisk
+    - unimrcp
+
+
+- name: Замена APR_SCDIR в build-dep.sh
+  lineinfile:
+    path: /opt/distrib/unimrcp-deps-1.5.0/build-dep-libs.sh
+    regexp: APR_SRCDIR=
+    line: APR_SRCDIR=/opt/distrib/unimrcp-deps-1.5.0/libs/apr
+  tags:
+    - asterisk
+    - unimrcp
+
+- name: Замена APU_SRCDIP в build-dep.sh
+  lineinfile:
+    path: /opt/distrib/unimrcp-deps-1.5.0/build-dep-libs.sh
+    regexp: APU_SRCDIR=
+    line: APU_SRCDIR=/opt/distrib/unimrcp-deps-1.5.0/libs/apr-util
+  tags:
+    - asterisk
+    - unimrcp
+
+
+- name: Замена SOFIA_SRCDIR в build-dep.sh
+  lineinfile:
+    path: /opt/distrib/unimrcp-deps-1.5.0/build-dep-libs.sh
+    regexp: SOFIA_SRCDIR=
+    line: SOFIA_SRCDIR=/opt/distrib/unimrcp-deps-1.5.0/libs/sofia-sip
+  tags:
+    - asterisk
+    - unimrcp
+
+
+- name: Запуск скрипта проверки модулей и обновления необходимых пакетов
+  expect:
+    command: bash /opt/distrib/unimrcp-deps-1.5.0/build-dep-libs.sh chdir=/opt/distrib/unimrcp-deps-1.5.0/
+    responses:
+      Do you want to build APR  : "y"
+      Do you want to build  : "y"
+    timeout: 420
+  tags:
+    - asterisk
+    - unimrcp
+
+- name: Скачивание UniMRCP
+  git:
+    repo: 'https://github.com/unispeech/unimrcp'
+    dest: /opt/distrib/unimrcp
+    clone: yes
+    update: yes
+  tags:
+    - unimrcp
+    - asterisk
+    
+
+- name: Установка unimrcp
+  # This works
+  command: '{{ item }} chdir=/opt/distrib/unimrcp/'
+  with_items:
+    - ./bootstrap
+    - ./configure --with-apr=/usr/local/apr/
+    - make
+    - make install
+  tags:
+    - unimrcp
+    - asterisk
+
+- name: Скачивание asterisk-UniMRCP
+  git:
+    repo: 'https://github.com/unispeech/asterisk-unimrcp'
+    dest: /opt/distrib/asterisk-unimrcp/
+    clone: yes
+    update: yes
+  tags:
+    - unimrcp
+    - asterisk
+
+- name: Установка asterisk-unimrcp
+  # This works
+  command: '{{ item }} chdir=/opt/distrib/asterisk-unimrcp/'
+  with_items:
+    - ./bootstrap
+    - ./configure
+    - make
+    - make install
+  tags:
+    - unimrcp
+    - asterisk
+
+- name: Скачивание UniMRCP-DEPS
+  get_url:
+    url: https://getcomposer.org/download/1.6.5/composer.phar
+    dest: /opt/distrib/
+  tags:
+     - vbd
+     - dev
+
+
+- name: example copying file with owner and permissions
+  command: '{{ item }}'
+  with_items:
+    - chmod 755 /opt/distrib/composer.phar
+    - cp -p /opt/distrib/composer.phar /usr/local/bin/composer
+  tags:
+    - vbd
+    - dev
+
+
+- name: Скачивание UniMRCP-DEPS
+  get_url:
+    url: https://github.com/phingofficial/phing/releases/download/2.16.1/phing-2.16.1.phar
+    dest: /opt/distrib/
+  tags:
+     - vbd
+     - dev
+
+
+- name: example copying file with owner and permissions
+  command: '{{ item }}'
+  with_items:
+    - chmod 755 /opt/distrib/phing-2.16.1.phar
+    - cp -p /opt/distrib/phing-2.16.1.phar /usr/local/bin/phing
+  tags:
+    - vbd
+    - dev
+
+- name: Установка Asterisk
+  # This works
+  command: '{{ item }} chdir=/opt/distrib/asterisk-{{ version }}/'
+  with_items:
+    - ./configure
+ #   - ./configure --with-jansson-bundled  ###### FOT Ubuntu 16
+    - make
+    - make install
+    - make samples
+    - make config
+    - make install-logrotate
+  tags:
+ #   - dev
+    - 2part
+    - asterisk2
+    - asterisk
+
+- name: Замена maxfiles в asterisk.conf
+  lineinfile:
+    path: "{{ ast_path }}asterisk.conf"
+    regexp: maxfiles = 
+    line: maxfiles = 10000
+  tags:
+  #  - dev
+    - 2part
+    - asterisk
+
+- name: Замена в конф файле logger
+  lineinfile:
+    path: "{{ ast_path }}logger.conf"
+    regexp: messages => notice,warning,error
+    line: messages => notice,warning,error,verbose 
+  tags:
+  #  - dev
+    - asterisk
+
+- name: Замена в конф файле logger
+  lineinfile:
+    path: "{{ ast_path }}logger.conf"
+    regexp: console => 
+    line: console => notice,warning,error,verbose
+  tags:
+  #  - dev
+    - 2part
+    - asterisk
+
+- name: Замена в конф файле logger
+  lineinfile:
+    path: "{{ ast_path }}logger.conf"
+    regexp: ;full => 
+    line: full => notice,warning,error,verbose,debug
+  tags:
+ #   - dev
+    - 2part
+    - asterisk
+
+
+- name: Замена в конф файле modules
+  lineinfile:
+    path: "{{ ast_path }}modules.conf"
+    regexp: noload => chan_oss.so
+    line: noload => cdr_csv.so
+  tags:
+ #   - dev
+    - 2part
+    - asterisk
+
+- name: Замена в конф файле modules
+  lineinfile:
+    path: "{{ ast_path }}modules.conf"
+    regexp: load => pbx_gtkconsole.so
+    line: noload => cdr_custom.so 
+  tags:
+#    - dev
+    - 2part
+    - asterisk
+ 
+- name: Замена в конф файле modules
+  lineinfile:
+    path: "{{ ast_path }}modules.conf"
+    regexp: noload => cdr_custom.so
+    line: load => cdr_custom.so
+  tags:
+#    - dev
+    - vibor
+    - 2part
+    - asterisk
+
+- name: Остановка службы
+  service:
+    name: "asterisk"
+    state: restarted
+  tags:
+#    - dev
+    - vibor
+
+- name: example copying file with owner and permissions
+  command: 'chown asterisk:asterisk -R "{{ item }}"'
+  with_items:
+    - /var/spool/asterisk
+    - /var/spool/asterisk
+    - /var/log/asterisk
+  tags:
+#    - dev
+    - 2part
+    - asterisk
+    - permissions
+
+- name: Restart ASTERISK
+  service:
+    name: asterisk
+    state: restarted
+  tags:
+#    - dev
+    - 2part
+    - asterisk
+
+- name: Установка tomita
+ # synchronize:
+  copy:
+    src: /opt/tomita-linux64
+    dest: /opt/distrib/ 
+ # delegate_to: test1
+  tags:
+    - 2part
+    - dev
+    - tomita
+- name: Компиляция томиты
+  command: '{{ item }}'
+  with_items:
+    - chmod 755 /opt/distrib/tomita-linux64
+    - cp -p /opt/distrib/tomita-linux64 /usr/local/bin/tomita
+  tags:
+    - 2part
+    - dev
+    - tomita
+
+- name: Скачивание Deploid
+  get_url:
+    url: https://github.com/Userator/deploid/archive/master.zip
+    dest: /opt/distrib/
+  tags:
+     - vbd
+     - 2part
+     - dev
+
+- name: Распаковываем архив Deploid
+  unarchive:
+    src: /opt/distrib/deploid-master.zip
+    dest: /opt/distrib/
+    remote_src: yes
+  tags:
+    - vbd
+    - 2part
+    - dev
+
+- name: Компиляция deploid
+  command: '{{ item }} chdir=/opt/distrib/deploid-master/'
+  with_items:
+    - composer install --no-dev
+    - php -d phar.readonly=0 build/make-phar.php
+    - cp -p /opt/distrib/deploid-master/build/deploid.phar /usr/local/bin/deploid
+    - chmod 755 /usr/local/bin/deploid
+  tags:
+    - vbd
+    - 2part
+    - dev
+
+#- name: Скачивание Gitlab-runner
+#  become: yes
+#  become_method: sudo
+#  become_user: root
+#  get_url:
+#    url: https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd6
+#    dest: /opt/distrib/
+#  tags:
+#     - dev
+#     - new
+
+#- name: Компиляция deploid
+#  command: '{{ item }} chdir=/opt/distrib/'
+#  with_items:
+#    - cp -p /opt/distrib/gitlab-runner-linux-amd6
+#    - chmod 755 /usr/local/bin/gitlab-runner
+#  tags:
+#    - dev
+#    - new
+
+- name: Добавление пользователя gitlab-runner
+  user:
+    name: gitlab-runner
+    shell: /bin/bash
+    groups: '{{ item }}'
+    append: yes
+    state: present
+    createhome: yes
+  with_items:
+    - www-data
+  tags:
+    - dev
+    - vbd
+    - gr
+    - 2part
+    - dev
+
+- template:
+    src: /opt/ansible/roles/asterisk/templates/mrcp.j2
+    dest: "{{ ast_path  }}"
+  with_items: "{{ ip_vn }}"
+  tags:
+    - dev
+    - pdraz
+    - 3part
+    - test
+
+
+- name: Копируем mrcp.conf
+  copy:
+    src: /opt/ansible/roles/asterisk/templates/mrcp.j2
+    dest: "{{ ast_path  }}"
+#  with_items: "{{ domain }}"
+  tags:
+    - pdraz
+    - epart
+    - test
+
+- name: Копируем sip.conf
+  copy:
+    src: /opt/ansible/roles/asterisk/templates/sip.conf
+    dest: "{{ ast_path  }}"
+#  with_items: "{{ domain }}"
+  tags: 
+    - dev
+    - pdraz
+    - epart
+    - test
+
+
+- name: Add repositories
+  apt_repository: repo='ppa:ondrej/php' state=present
+  tags:
+    - dev
+    - 3part
+    - rep
+    - pdraz
+
+- name: apt-get update
+  apt:
+    update-cache: yes
+  changed_when: 0
+  tags:
+    - dev
+    - pdarz
+    - 3part
+    - rep
+
+- name: Проверка установки пакетов php7.2
+  become: yes
+  become_method: sudo
+  become_user: root
+  apt:
+    name: "{{ item }}"
+    state: present
+  tags:
+    - dev
+    - vbd
+    - pdraz
+    - 3part
+  with_items:
+    - php7.3
+    - php7.3-cli
+    - php7.3-common
+    - php7.3-curl
+    - php7.3-fpm
+    - php7.3-gd
+    - php7.3-uuid
+    - php7.3-soap
+    - php7.3-json
+    - php7.3-mbstring
+    - php7.3-mysql
+    - php7.3-opcache
+    - php7.3-readline
+    - php7.3-xml
+    - php7.3-xmlrpc
+    - php-xdebug
+    - php-memcached
+    - php-memcache
+    - php-apcu
+    - php7.3-zip
+    - php7.3-uuid
+   # - gitlab-runner
+ 
+
+- name: Проверка установки Mysql
+  become: yes
+  become_method: sudo
+  become_user: root
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - mysql-server
+  tags:
+    - dev
+    - pdraz
+
+- name: Добавление timeout в Zabbix
+  lineinfile:
+    path: '/etc/cloud/cloud.cfg'
+    regexp: 'preserve_hostname: false'
+    line: 'preserve_hostname: true'
+  tags:
+    - dev
+    - pdraz
+    - zaeb

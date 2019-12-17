@@ -1,0 +1,4 @@
+part: "xvde"
+path_src: "/var/lib/mysql/"
+#service: "apache2"
+uusername: "skozincev"

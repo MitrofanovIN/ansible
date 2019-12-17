@@ -1,0 +1,11 @@
+part: "path"
+#parth: "xvdb"
+partt: "xvdc"
+#partv: "xvde"
+parto: "xvdf"
+
+path_srch: "/home/"
+path_srct: "/tmp/"
+path_srcv: "/var/"
+path_srco: "/opt/"
+service: "apache2"

@@ -1,0 +1,66 @@
+---
+# tasks file for ats-cms-web
+- name: Add repositories
+  apt_repository: repo='ppa:ondrej/php' state=present
+  tags:
+    - rep
+
+- name: apt-get update
+  apt:
+    update-cache: yes
+  changed_when: 0
+  tags:
+    - rep
+
+
+- name: Проверка установки пакетов php7.3
+  become: yes
+  become_method: sudo
+  become_user: root
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - php7.3
+    - php7.3-cli
+    - php7.3-common
+    - php7.3-curl
+    - php7.3-fpm
+    - php7.3-gd
+    - php7.3-json
+    - php7.3-mbstring
+    - php7.3-mysql
+    - php7.3-opcache
+    - php7.3-readline
+    - php7.3-xml
+    - php7.3-xmlrpc
+    - php-xdebug
+    - php-memcached
+    - php-memcache
+    - php-apcu
+    - php7.3-zip
+    - php7.3-uuid
+
+
+- name: Установка компонентов
+  become: yes
+  become_method: sudo
+  become_user: root
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+     - mysql-server
+     - apache2
+#    - memcached
+#    - redis
+#    - supervisor
+
+- name: Добавление timeout в Zabbix
+  lineinfile:
+    path: '/etc/cloud/cloud.cfg'
+    regexp: 'preserve_hostname: false'
+    line: 'preserve_hostname: true'
+  tags:
+    - pdraz
+

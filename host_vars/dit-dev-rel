@@ -1,0 +1,21 @@
+ast_path: "/etc/asterisk/"
+version: "16.5.0"
+root_site: "/opt/ats/dit-rms-web3/"
+root_pub: "/opt/ats/dit-rms-web3/"
+root_www: "/opt/ats/"
+name_vh: "release3.conf"
+ip_vn: "192.168.12.111"
+sa: "/etc/apache2/sites-available/"
+se: "/etc/apache2/sites-enabled/"
+uusername: "mbazekin"
+part: "xvdb"
+partt: "xvdc"
+#partv: "xvde"
+#parto: "xvdf"
+#/opt/ats/dit-rms-web3
+
+path_src: "/var/lib/mysql/"
+path_srct: "/opt/"
+#path_srcv: "/var/"
+#path_srco: "/opt/"
+

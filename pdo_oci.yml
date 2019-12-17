@@ -1,0 +1,16 @@
+#- hosts: test2
+#  become: yes
+#  become_user: root
+#  become_method: sudo
+#  roles:
+#    - { role: asterisk }
+#  tags: [ 'install' ]
+
+- hosts: 50-plus
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: pdo_oci }
+
+

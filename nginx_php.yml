@@ -1,0 +1,6 @@
+- hosts: nginx_php3
+  become: yes
+  become_user: root
+  become_method: su
+  roles:
+    - { role: nginx_php }

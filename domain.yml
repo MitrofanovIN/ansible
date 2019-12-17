@@ -1,0 +1,28 @@
+- hosts: gw
+  vars:
+    domain:
+      - arm-emias-stage
+#      - arm-expert-domodedovo
+
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: create-domain }
+
+- hosts: nginx2
+  vars:
+    domain:
+      - arm-emias-stage
+ #     - arm-expert-domodedovo
+
+    domain80:
+      - arm-emias-stage
+#      - arm-expert-domodedovo
+
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: nginx }
+

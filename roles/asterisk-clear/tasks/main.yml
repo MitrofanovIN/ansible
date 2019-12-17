@@ -1,0 +1,149 @@
+# tasks file for asterisk
+#- name: Проверка установки пакетов php7.2
+#  become: yes
+#  become_method: sudo
+#  become_user: root
+#  apt:
+#    name: "{{ item }}"
+#    state: present
+#  with_items:
+#    - php7.2
+#    - php7.2-cli
+#    - php7.2-common
+#    - php7.2-curl
+#    - php7.2-fpm
+#    - php7.2-gd
+#    - php7.2-json
+#    - php7.2-mbstring
+#    - php7.2-mysql
+#    - php7.2-opcache
+#    - php7.2-readline
+#    - php7.2-xml
+#    - php7.2-xmlrpc
+#    - php-xdebug
+#    - php-memcached
+#    - php-memcache
+#    - php-apcu
+#    - php7.2-zip
+#    - php7.2-uuid
+##    - php7.2-dev
+#    - gcc
+#    - python
+#    - python-pexpect
+#    - make
+#    - cmake
+#    - libvpb1
+#    - libaio1
+#    - libssl1.0-dev
+#    - npm
+#    - nodejs
+##    - ffmpeg
+#    - sox
+#    - gitlab-runner
+#    - re2c
+#  tags:
+#    - asterisk
+#    - dev
+#    - install
+
+
+- name: Создаем папку distrib
+  file:
+    path: /opt/distrib
+    state: directory
+    mode: 0775
+  tags:
+    - asterisk
+
+
+
+- name: Скачивание Janson
+#  become: yes
+#  become_method: sudo
+#  become_user: root
+  get_url:
+    url: http://www.digip.org/jansson/releases/jansson-2.5.tar.gz
+    dest: /opt/distrib
+  tags:
+    - asterisk
+
+
+- name: Распаковываем архив Janson
+  unarchive:
+    src: /opt/distrib/jansson-2.5.tar.gz
+    dest: /opt/distrib/
+    remote_src: yes
+  tags:
+    - asterisk
+
+
+- name: Установка Jansson
+  # This works
+  command: '{{ item }} chdir=/opt/distrib/jansson-2.5/'
+  with_items:
+    - ./configure '--prefix=/usr/'
+    - make
+    - make install
+    - ldconfig
+  tags:
+    - asterisk
+
+
+- name: Добавление пользователя Asterisk
+  user:
+    name: asterisk
+    append: yes
+  tags:
+    - asterisk
+
+
+
+- name: Скачивание Asterisk
+  get_url:
+    url:  http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-16-current.tar.gz
+    dest: /opt/distrib/
+  tags:
+    - asterisk
+
+
+
+- name: Распаковываем архив Asterisk
+  unarchive:
+    src: /opt/distrib/asterisk-16-current.tar.gz
+    dest: /opt/distrib/
+    remote_src: yes
+  tags:
+    - asterisk
+
+
+- name: Запуск скрипта проверки модулей и обновления необходимых пакетов
+  expect:
+    command: '/opt/distrib/asterisk-{{ version }}/./contrib/scripts/install_prereq install'
+    responses:
+      Хотите продолжить : "y"
+    timeout: 420
+  tags:
+    - asterisk2
+
+
+- name: Установка Asterisk
+  # This works
+  command: '{{ item }} chdir=/opt/distrib/asterisk-{{ version }}/'
+  with_items:
+    - ./configure --libdir=/usr/lib64 --with-jansson-bundled
+    - make
+    - make install
+    - make samples
+    - make config
+    - make install-logrotate
+  tags:
+    - asterisk2
+
+- name: Копируем sip.conf
+  copy:
+    src: /opt/ansible/roles/asterisk/templates/sip.conf
+    dest: "{{ ast_path  }}"
+#  with_items: "{{ domain }}"
+  tags:
+    - test
+

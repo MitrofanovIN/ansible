@@ -1,0 +1,35 @@
+---
+# tasks file for create-lingvist
+#- name install pexpect
+#  pip:
+#    name: pexpect
+#  become: yes
+
+- name: Установка Asterisk
+  expect:
+  # This works
+    command: './create {{ user }} chdir=/root/'
+#     with_items: 
+#       - './create {{ user  }}'
+    responses:
+      Country Name   : "RU"
+      State or Province: "Moscow"
+      Locality Name: "Moscow"
+      Organization Name: "atsaero"
+      Organizational Unit: "atsaero"
+      Common Name: "{{ user }}"
+      Name : "atsaero"
+      Email Address : "adm@atsaero.ru"
+      A challenge : ""
+      An optional : ""
+      Sign the : "y"
+
+- name: Закидываем архив в transfer
+  expect:
+  # This works
+    command: '{{ item }}'
+    with_items:
+      - rsync -rzhav0 /etc/openvpn/users/"{{ user }}/.zip" mitrofanov@192.168.12.55:/ftp/transfer
+    responses:
+      mitrofanov  : "Ytjhlbyfhysq0hybnjkju"
+

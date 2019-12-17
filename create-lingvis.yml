@@ -1,0 +1,9 @@
+- hosts: gw
+#  vars:
+#    part: "/dev/xvdc"
+#    path_src: "/home/mitrofanov/old/"
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: create-lingvist }

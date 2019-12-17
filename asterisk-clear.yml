@@ -1,0 +1,6 @@
+- hosts: dit_edc
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: asterisk-clear }

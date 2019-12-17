@@ -1,0 +1,37 @@
+---
+# tasks file for dit_transcrib
+
+- name: Изменение в ProxyLink
+  lineinfile:
+    path: '/opt/RS/Config/ResourceServerConfig.xml'
+    regexp: '<link asr="50" tts="50" />'
+    line: '			<link asr="50" tts="0" />'
+
+
+#- name: Изменения в EnginCount
+#  lineinfile:
+#    path: '/opt/RS/Config/ResourceServerConfig.xml'
+#    regexp: '<enginesCount value="50"/>'
+#    line: '		<enginesCount value="0"/>'
+
+
+#- name: Изменения в Selinux
+#  lineinfile:
+#    path: '/etc/sysconfig/selinux'
+#    regexp: 'SELINUX=enforcing'
+#    line: 'SELINUX=disabled'
+
+
+#- name: Установка Jansson
+  # This works
+#  command: '{{ item }}'
+#  with_items:
+#    - dmesg -c
+ #   - reboot
+#    - mount -a
+
+- name: Остановка службы
+  service:
+    name: "stcRS"
+    state: restarted
+

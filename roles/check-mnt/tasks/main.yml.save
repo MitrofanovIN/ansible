@@ -1,0 +1,41 @@
+---
+# tasks file for check-mnt
+- name: Проверим существавание диска
+  shell: df -h | grep xvd* | awk '{ print $1 }'
+  register: part_res
+  tags:
+    - one
+    - copy
+
+- debug: var=part_res.stdout_lines
+  tags:
+    - one
+    - copy
+
+
+- name: Проверим существавание диска
+  shell: umount -f -l {{item}}
+  when: "'/dev/xvda*' not in part_res.stdout"
+  with_items:
+    - part_res.stdout
+#  register: part_res
+  tags:
+    - one
+    - copy
+
+#- name: Создадим файл
+#  file:
+#    path: {{ path }}mnt_tmp_dir
+#    state: touch
+#    mode: 664
+#  tags:
+#    - one
+
+
+- name: Замонтируем
+  shell: mount -a
+#  register: part_res
+  tags:
+    - one
+    - copy
+

@@ -1,0 +1,13 @@
+---
+# tasks file for edzabbix
+- name: Добавление timeout в Zabbix
+  lineinfile:
+    path: '/etc/zabbix/zabbix_agentd.conf'
+    regexp: 'Timeout=3'
+    line: 'Timeout=20'
+
+- name: Остановка службы
+  service:
+    name: "zabbix-agent"
+    state: restarted
+

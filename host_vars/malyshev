@@ -1,0 +1,5 @@
+ansible_become_pass: "atsadmin123"
+ast_path: "/etc/asterisk/"
+version: "15.7.1"
+
+

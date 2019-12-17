@@ -1,0 +1,14 @@
+---
+# tasks file for swapoff
+
+- name: Закоментаривание swap в /etc/fstab
+  lineinfile:
+    path: '/etc/fstab'
+    regexp: '/swap'
+    line: '#/swap'
+
+- name: Выключаем swap
+  # This works
+  command: '{{ item }}'
+  with_items:
+    - swapoff -a

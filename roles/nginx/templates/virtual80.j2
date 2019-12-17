@@ -1,0 +1,7 @@
+server {
+    listen 80;
+    server_name  {{ item }}.atsaero.ru;
+    rewrite ^(.*) https://{{ item }}.atsaero.ru$1 permanent;
+access_log /var/log/nginx/{{ item }}80.log;
+}
+

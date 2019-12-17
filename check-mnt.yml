@@ -1,0 +1,6 @@
+- hosts: pochta_prod_bd
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: check-mnt }

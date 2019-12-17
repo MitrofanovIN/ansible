@@ -1,0 +1,10 @@
+ast_path: "/etc/asterisk/"
+version: "15.7.2"
+root_www: "/var/www/html/"
+root_site: "/var/www/html/site/"
+root_pub: "/var/www/html/site/"
+name_vh: "dev-edc.conf"
+sa: "/etc/apache2/sites-available/"
+se: "/etc/apache2/sites-enabled/"
+
+

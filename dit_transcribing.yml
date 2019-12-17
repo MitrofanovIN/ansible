@@ -1,0 +1,9 @@
+- hosts: all
+#  vars:
+#    part: "/dev/xvdc"
+#    path_src: "/home/mitrofanov/old/"
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: dit_transcrib }

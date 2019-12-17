@@ -1,0 +1,443 @@
+[general]
+;Набор настроек для сопряжения с VoiceNavigator
+default-asr-profile = vn
+default-tts-profile = vn
+max-connection-count = 100
+offer-new-connection = 100
+request-timeout = 2000
+
+
+[vn171]
+version = 2
+server-ip = { ip_vn } ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = { ip_ast } ;ip на котором стоит asterisk
+client-port = 5183 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = { ip_ast } ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+
+[vn172]
+version = 2
+server-ip = 192.168.12.172 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5185 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+[vn149]
+version = 2
+server-ip = 192.168.12.149 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5186 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+[vn148]
+version = 2
+server-ip = 192.168.12.148 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5187 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+[vn168]
+version = 2
+server-ip = 192.168.12.168 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5186 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+[vn170]
+version = 2
+server-ip = 192.168.12.170 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5189 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+[vn198]
+version = 2
+server-ip = 192.168.12.198 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5190 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+[vn101]
+version = 2
+server-ip = 192.168.35.101 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5198 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+[vn108]
+version = 2
+server-ip = 192.168.12.108 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5191 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+[vn187]
+version = 2
+server-ip = 192.168.12.187 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5195 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+
+[vn185]
+version = 2
+server-ip = 192.168.12.185 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5196 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+[vn175]
+version = 2
+server-ip = 192.168.12.175 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5197 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+[vn175]
+;Версия MRCP протокола
+version=1
+;Адрес MRCP-сервера VoiceNavigator
+server-ip=192.168.12.175
+;Порт, по которому VoiceNavigator принимает запросы на синтез и распознавание
+server-port=8000
+;Расположение ресурсов синтеза и распознавания
+;на MRCP-сервере (для VoiceNavigator – пустое значение)
+resource-location=
+;Имена ресурсов синтеза и распознавания в VoiceNavigator
+speechsynth=tts
+speechrecog=asr
+;Адрес интерфейса, с которого будет сниматься RTP-трафик.
+;Адрес компьютера, на котором установлен Asterisk,
+;если используется другая точка концентрации RTP-трафика
+rtp-ip=192.168.12.111
+;Диапазон RTP-портов в соответствии с настройками VoiceNavigator
+rtp-port-min=32768
+rtp-port-max=40960
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 0
+rtcp-rx-resolution = 0
+
+
+[vn180]
+version = 2
+server-ip = 192.168.35.180 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5035 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 32770 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 40962 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs =PCMA ;PCMA для VN10, PCMU для VN8
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 400 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 100 ;100 для VN10, 1000 для VN8
+
+
+
+[vn181]
+version = 2
+server-ip = 192.168.12.181 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5201 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 40961 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 41060; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs =PCMA
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+[vn158]
+version = 2
+server-ip = 192.168.12.158 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5199 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+[vn153]
+version = 2
+server-ip = 192.168.12.153 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5202 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+[vn176]
+version = 2
+server-ip = 192.168.12.176 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5199 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+[vn178]
+version = 2
+server-ip = 192.168.12.178 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5205 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+[vn094]
+version = 2
+server-ip = 192.168.12.94 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5207 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+[vn075]
+version = 2
+server-ip = 192.168.12.75 ;ip сервера распознавания речи
+server-port = 5060
+force-destination = 1
+client-ip = 192.168.12.111 ;ip на котором стоит asterisk
+client-port = 5206 ; если профилей несколько ([vn182]), то порты должны различаться
+sip-transport = udp
+rtp-ip = 192.168.12.111 ;ip на котором стоит asterisk
+rtp-port-min = 4500 ; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+rtp-port-max = 4749; если профилей несколько ([vn182]), то диапазаоны портов не должны пересекаться
+playout-delay = 50
+max-playout-delay = 200
+ptime = 20
+codecs = PCMU PCMA L16/96/8000 telephone-event/101/8000
+rtcp = 1
+rtcp-bye = 2
+rtcp-tx-interval = 5000 ;400 для VN10, 5000 для VN8
+rtcp-rx-resolution = 1000 ;100 для VN10, 1000 для VN8
+
+

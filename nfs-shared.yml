@@ -1,0 +1,22 @@
+- hosts: pochta_prod
+  vars:
+    path_to_shared:
+      - /opt/ats/pochta-rossii-asr/shared/logs {{ ip_pub }} (rw,sync,no_root_squash,no_subtree_check)
+      - /opt/ats/pochta-rossii-asr/shared/records {{ ip_pub }} (rw,sync,no_root_squash,no_subtree_check)
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: nfs_from_mount }
+
+- hosts: pochta_prod_bd
+  vars:
+    path_to_fstab:
+      - '{{ ip_host }}:/opt/ats/pochta-rossii-asr/shared/logs           /mnt/logs   nfs ro,hard,bg,timeo=10,intr   0 0'
+      - '{{ ip_host }}:/opt/ats/pochta-rossii-asr/shared/records         /mnt/records      nfs ro,hard,bg,timeo=10,intr   0 0'
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: nfs_mount }
+

@@ -1,0 +1,3 @@
+part: "xvdg"
+path_src: "/var/lib/mysql/"
+service: "mysql"

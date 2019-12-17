@@ -1,0 +1,3 @@
+part: "xvdc"
+path_src: "/usr/"
+service: "nginx"

@@ -1,0 +1,11 @@
+ast_path: "/etc/asterisk/"
+version: "16.5.0"
+ip_vn: "192.168.12.218"
+uusername: "zelenov"
+part: "xvdb"
+#partt: "xvdc"
+#partv: "xvde"
+#parto: "xvdf"
+
+path_src: "/var/lib/mysql/"
+

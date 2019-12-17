@@ -1,0 +1,21 @@
+- hosts: vibor2019bd
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: ats-cms-web }
+
+- hosts: vibor2019bd
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: rewrite-apache }
+
+- hosts: vibor2019bd
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: create-user }
+

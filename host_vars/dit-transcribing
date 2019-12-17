@@ -1,0 +1,10 @@
+ast_path: "/etc/asterisk/"
+version: "15.7.2"
+root_www: "/var/www/html/"
+root_site: "/opt/ats/ats-cms-web/public/index.php"
+root_pub: "/var/www/html/site/"
+name_vh: "dit-transcribing.conf"
+sa: "/etc/apache2/sites-available/"
+se: "/etc/apache2/sites-enabled/"
+
+

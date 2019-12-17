@@ -1,0 +1,327 @@
+
+---
+#############################################
+#
+#      PHP7.2
+#
+#############################################
+
+- name: Проверка установки пакетов php7.2
+  become: yes
+  become_method: sudo
+  become_user: root
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - php7.2
+    - php7.2-cli
+    - php7.2-common
+    - php7.2-curl
+    - php7.2-fpm
+    - php7.2-gd
+    - php7.2-json
+    - php7.2-mbstring
+    - php7.2-mysql
+    - php7.2-opcache
+    - php7.2-readline
+    - php7.2-xml
+    - php7.2-xmlrpc
+    - php-xdebug
+    - php-memcached
+    - php-memcache
+    - php-apcu
+    - php7.2-zip
+    - php7.2-uuid
+#    - php7.2-dev
+    - gcc
+    - python
+    - python-pexpect
+    - make
+    - cmake
+    - libaio1
+    - libaio-dev
+    - php7.2-dev
+    - re2c
+  tags:
+    - php7.2
+
+- name: Создаем папку distrib
+  file:
+    path: /opt/distrib
+    state: directory
+    mode: 0775
+  tags:
+    - asterisk
+    - php7.2
+
+# tasks file for pdo_oci
+- name: Скачивание php
+#  become: yes
+#  become_method: sudo
+#  become_user: root
+  get_url:
+    url:  http://be.php.net/distributions/php-7.2.14.tar.gz
+    dest: /opt/distrib
+  tags:   
+    - php7.2
+
+- name: Распаковываем PHP
+  unarchive:
+    src: /opt/distrib/php-7.2.14.tar.gz
+    dest: /opt/distrib
+    remote_src: yes
+  tags:
+    - php
+    - php7.2
+
+- name: Копируем instantclient
+ # synchronize:
+  copy:
+    src: /opt/oracle/
+    dest: /opt/oracle/
+ # delegate_to: test1
+  tags:
+    - php
+    - php7.2
+
+- name: Копируем instantclient
+ # synchronize:
+  copy:
+    src: /opt/deb
+    dest: /opt/distrib
+ # delegate_to: test1
+  tags:
+    - php
+    - php7.2   
+
+- name: Добавляем окружение
+  command: '{{ item }} chdir=/opt/distrib/deb/'
+  with_items:
+    - 'dpkg -i sdk12.2.deb'
+    - 'dpkg -i basic12.2.deb'
+  tags:
+    - dpkg
+    - php7.2
+
+
+- name: Добавляем окружение
+  shell: '{{ item }}' 
+  with_items:
+    - set ORACLE_HOME=/usr/lib/oracle/12.2/client64
+    - set LD_LIBRARY_PATH=$ORACLE_HOME/lib/
+  tags:
+    - env
+    - php7.2
+
+- name: Добавляем окружение
+  shell: '{{ item }}'
+  with_items:
+    - echo /usr/lib/oracle/12.2/client64 > /etc/ld.so.conf.d/oracle-instantclient
+    - ldconfig
+  tags:
+    - env
+    - php7.2 
+
+- name: Компиляция deploid
+  command: '{{ item }} chdir=/opt/distrib/php-7.2.14/ext/pdo_oci'
+  with_items:
+    - phpize
+    - ./configure '--with-pdo-oci=instantclient,/opt/oracle/instantclient/lib/,12.2'
+    - make
+    - make install
+  tags:
+    - oci
+    - php7.2
+
+- name: Добавляем создание файла pdo_oci
+  shell: '{{ item }}'
+  with_items:
+    - echo extension=pdo_oci.so > /etc/php/7.2/mods-available/pdo_oci.ini
+  tags:
+    - oci
+    - php7.2
+
+- name: Создание Symlink
+  file:
+    src: "/etc/php/7.2/mods-available/pdo_oci.ini"
+    dest: "/etc/php/7.2/cli/conf.d/20-pdo_oci.ini"
+    owner: root
+    group: root
+    state: link
+  tags:
+    - oci
+    - php7.2
+
+- name: Замена в конф файле modules
+  lineinfile:
+    path: "/root/.bashrc"
+    regexp: export ORACLE_HOME=
+    line: export ORACLE_HOME=/usr/lib/oracle/12.2/client64
+  tags:
+    - oci
+    - php7.2
+
+- name: Замена в конф файле modules
+  lineinfile:
+    path: "/root/.bashrc"
+    regexp: export LD_LIBRARY_PATH=
+    line: export LD_LIBRARY_PATH=$ORACLE_HOME/lib/
+  tags:
+    - oci
+    - php7.2
+
+#######################################
+#      PHP 5.6
+#
+#######################################
+
+
+- name: Add repositories 
+  apt_repository: repo='ppa:ondrej/php' state=present 
+  tags:
+    - rep	
+- name: Создаем папку distrib
+  file:
+    path: /opt/distrib
+    state: directory
+    mode: 0775
+  tags:
+    - php5.6
+
+- name: apt-get update
+  apt:
+    update-cache: yes
+  changed_when: 0
+  tags:
+    - rep
+
+- name: Проверка установки пакетов php5.6
+  become: yes
+  become_method: sudo
+  become_user: root
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - php5.6
+    - php5.6-dev
+  tags:
+    - rep
+
+# tasks file for pdo_oci
+- name: Скачивание php
+#  become: yes
+#  become_method: sudo
+#  become_user: root
+  get_url:
+    url:  http://be.php.net/distributions/php-5.6.37.tar.gz
+    dest: /opt/distrib
+  tags:
+    - php5.6
+
+- name: Распаковываем PHP
+  unarchive:
+    src: /opt/distrib/php-5.6.37.tar.gz
+    dest: /opt/distrib
+    remote_src: yes
+  tags:
+    - php5.6
+
+- name: Копируем instantclient
+ # synchronize:
+  copy:
+    src: /opt/11/instantclient
+    dest: /opt/
+ # delegate_to: test1
+  tags:
+    - php5.6
+
+- name: Копируем instantclient
+ # synchronize:
+  copy:
+    src: /opt/deb
+    dest: /opt/distrib
+ # delegate_to: test1
+  tags:
+    - php5.6
+
+- name: Добавляем окружение
+  command: '{{ item }} chdir=/opt/distrib/deb/'
+  with_items:
+    - 'dpkg -i sdk11.1.deb'
+    - 'dpkg -i basic11.1.deb'
+  tags:
+    - php5.6
+
+
+- name: Добавляем окружение
+  shell: '{{ item }}'
+  with_items:
+    - set ORACLE_HOME=/usr/lib/oracle/11.1/client64
+    - set LD_LIBRARY_PATH=$ORACLE_HOME/lib/
+  tags:
+    - php5.6
+
+- name: Добавляем окружение
+
+  shell: '{{ item }}'
+  with_items:
+    - echo /usr/lib/oracle/11.1/client64 >> /etc/ld.so.conf.d/oracle-instantclient
+    - ldconfig
+  tags:
+    - php5.6
+
+- name: Компиляция deploid
+  command: '{{ item }} chdir=/opt/distrib/php-5.6.37/ext/pdo_oci'
+  with_items:
+    - phpize
+    - ./configure --with-php-config=/usr/bin/php-config5.6 --with-pdo-oci=instantclient,/opt/instantclient/,11.1
+    - make
+    - make install
+  tags:
+    - php5.6
+    - inst
+
+- name: Добавляем создание файла pdo_oci
+  shell: '{{ item }}'
+  with_items:
+    - echo extension=pdo_oci.so > /etc/php/5.6/mods-available/pdo_oci.ini
+  tags:
+    - php5.6
+
+- name: Создание Symlink
+  file:
+    src: "/etc/php/5.6/mods-available/pdo_oci.ini"
+    dest: "/etc/php/5.6/apache2/conf.d/20-pdo_oci.ini"
+    owner: root
+    group: root
+    state: link
+  tags:
+    - php5.6
+    - link
+
+- name: Замена в конф файле modules
+  lineinfile:
+    path: "/root/.bashrc"
+    regexp: export ORACLE_HOME=
+    line: export ORACLE_HOME=/usr/lib/oracle/11.1/client64
+  tags:
+    - php5.6
+
+- name: Замена в конф файле modules
+  lineinfile:
+    path: "/root/.bashrc"
+    regexp: export LD_LIBRARY_PATH=
+    line: export LD_LIBRARY_PATH=$ORACLE_HOME/lib/
+  tags:
+    - php5.6
+
+
+- name: Добавляем создание файла pdo_oci
+  shell: '{{ item }}'
+  with_items:
+    - phpenmod pdo_oci
+  tags:
+    - php5.6
+

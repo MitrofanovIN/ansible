@@ -1,0 +1,190 @@
+---
+# tasks file for mnt_cop
+
+#- name: Остановка службы
+#  service:
+#    name: "{{ item }}"
+#    state: stopped
+#  with_items:
+#    - apache2
+#    - mysql
+#  tags:
+#    - one
+
+- name: Проверим существавание диска
+  shell: df -h | grep {{ part }} | awk '{ print $1 }'
+  register: part_res
+  tags:
+    - one
+    - copy
+
+- debug: var=part_res.stdout_lines
+  tags:
+    - one  
+    - copy
+
+- name: Создадим таблицу разделов диска
+  shell: /bin/echo -e "n\np\n1\n\n\nw" | fdisk /dev/"{{ part }}"
+ # with_items:
+ #   - echo -e "n\np\n1\n\n\nw" | sudo fdisk /dev/{{ part }}
+ #   - mkfs.ext4 /dev/{{ part }}1
+ # args:
+ #   executable: /bin/sh
+  when: "'/dev/{{ part }}' not in part_res.stdout"
+  tags:
+    - one  
+
+- name: Форматируем в ext4
+  command: ' mkfs.ext4 /dev/{{ part }}1 '
+  tags:
+    - one
+#  args:
+#    executable: /bin/sh
+  when: "'/dev/{{ part }}' not in part_res.stdout"
+
+- name: Создаем папку distrib
+  file:
+    path: /mnt/mnt_tmp_dir
+    state: directory
+    mode: 0775
+  tags:
+    - one
+
+
+
+- name: Смонтируем в папку
+  command: ' mount /dev/"{{ part }}1" /mnt/mnt_tmp_dir '
+#  args:
+#    executable: /bin/sh
+  when: "'/dev/{{ part }}' not in part_res.stdout"
+  tags:
+    - one
+    - testing
+
+- name: Копируем папку
+  command: ' cp -p {{ path_src }}. /mnt/mnt_tmp_dir/ -R '
+#  when: "'/dev/{{ part }}' not in part_res.stdout"
+  tags:
+    - one
+    - testing
+    - copy
+
+
+- name: Добавление строчки в fstab
+  lineinfile:
+    path: '/etc/fstab'
+    line: '/dev/{{ part }}1 {{path_src }} ext4 errors=remount-ro 0 1'
+
+
+########### T
+
+- name: Проверим существавание диска
+  shell: df -h | grep {{ partt }} | awk '{ print $1 }'
+  register: part_res
+  tags:
+    - copy
+
+- debug: var=part_res.stdout_lines
+  tags:
+    - copy
+- name: Создадим таблицу разделов диска
+  shell: /bin/echo -e "n\np\n1\n\n\nw" | fdisk /dev/"{{ partt }}"
+ # with_items:
+ #   - echo -e "n\np\n1\n\n\nw" | sudo fdisk /dev/{{ part }}
+ #   - mkfs.ext4 /dev/{{ part }}1
+ # args:
+ #   executable: /bin/sh
+  when: "'/dev/{{ partt }}' not in part_res.stdout"
+
+- name: Форматируем в ext4
+  command: ' mkfs.ext4 /dev/{{ partt }}1 '
+#  args:
+#    executable: /bin/sh
+  when: "'/dev/{{ partt }}' not in part_res.stdout"
+
+- name: Создаем папку distrib
+  file:
+    path: /mnt/mnt_tmp_dir_t
+    state: directory
+    mode: 0775
+
+
+
+- name: Смонтируем в папку
+  command: ' mount /dev/"{{ partt }}1" /mnt/mnt_tmp_dir_t '
+#  args:
+#    executable: /bin/sh
+  when: "'/dev/{{ partt }}' not in part_res.stdout"
+  tags:
+    - testing
+
+- name: Копируем папку
+  command: ' cp -ax {{ path_srct }}. /mnt/mnt_tmp_dir_t/ -R '
+#  when: "'/dev/{{ part }}' not in part_res.stdout"
+  tags:
+    - testing
+    - copy
+
+
+- name: Добавление строчки в fstab
+  lineinfile:
+    path: '/etc/fstab'
+    line: '/dev/{{ partt }}1 {{path_srct }} ext4 errors=remount-ro 0 1'
+
+
+########### V
+
+######## O
+
+- name: Проверим существавание диска
+  shell: df -h | grep {{ parto }} | awk '{ print $1 }'
+  register: part_res
+  tags:
+    - copy
+
+- debug: var=part_res.stdout_lines
+  tags:
+    - copy
+- name: Создадим таблицу разделов диска
+  shell: /bin/echo -e "n\np\n1\n\n\nw" | fdisk /dev/"{{ parto }}"
+ # with_items:
+ #   - echo -e "n\np\n1\n\n\nw" | sudo fdisk /dev/{{ part }}
+ #   - mkfs.ext4 /dev/{{ part }}1
+ # args:
+ #   executable: /bin/sh
+  when: "'/dev/{{ parto }}' not in part_res.stdout"
+
+- name: Форматируем в ext4
+  command: ' mkfs.ext4 /dev/{{ parto }}1 '
+#  args:
+#    executable: /bin/sh
+  when: "'/dev/{{ parto }}' not in part_res.stdout"
+
+- name: Создаем папку distrib
+  file:
+    path: /mnt/mnt_tmp_dir_o
+    state: directory
+    mode: 0775
+
+
+
+- name: Смонтируем в папку
+  command: ' mount /dev/"{{ parto }}1" /mnt/mnt_tmp_dir_o '
+#  args:
+#    executable: /bin/sh
+  when: "'/dev/{{ parto }}' not in part_res.stdout"
+  tags:
+    - testing
+
+- name: Копируем папку
+  command: ' cp -p {{ path_srco }}. /mnt/mnt_tmp_dir_o/ -R '
+#  when: "'/dev/{{ part }}' not in part_res.stdout"
+  tags:
+    - testing
+    - copy
+
+
+- name: Добавление строчки в fstab
+  lineinfile:
+    path: '/etc/fstab'
+    line: '/dev/{{ parto }}1 {{path_srco }} ext4 errors=remount-ro 0 1'

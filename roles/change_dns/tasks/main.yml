@@ -1,0 +1,16 @@
+---
+# tasks file for change_dns
+- name: Копируем ch_dns.sh
+  copy:
+    src: /opt/ansible/roles/change_dns/files/ch_dns.sh
+    dest: /root/
+
+
+- name: Запуск скрипта
+  # This works
+  command: '{{ item }} chdir=/root/'
+  with_items:
+    - bash /root/ch_dns.sh
+
+  
+

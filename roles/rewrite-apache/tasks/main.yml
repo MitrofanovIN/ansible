@@ -1,5 +1,10 @@
 ---
 # tasks file for rewrite-apache
+- name: Add repositories
+  apt_repository: repo='ppa:ondrej/php' state=present
+  tags:
+    - rep
+
 
 - name: Проверка установки пакетов php7.3
   become: yes
@@ -19,7 +24,7 @@
 
 - name: Создаем папку /var/www/html/site
   file:
-    path: "{{root_www}}dit-rms-web3" 
+    path: "{{ root_www }}site" 
     state: directory
     mode: 0775
 
@@ -45,15 +50,15 @@
 
 
 - template:
-    src: /opt/ansible/roles/rewrite-apache/templates/htaccess.j2
+    src: /opt/ansible-automation-master/roles/rewrite-apache/templates/htaccess.j2
     dest: "{{ root_site }}public/.htaccess" 
 
 - template:
-    src: /opt/ansible/roles/rewrite-apache/templates/index.j2
+    src: /opt/ansible-automation-master/roles/rewrite-apache/templates/index.j2
     dest: "{{ root_site }}public/index.php" 
 
 - template:
-    src: /opt/ansible/roles/rewrite-apache/templates/default.j2
+    src: /opt/ansible-automation-master/roles/rewrite-apache/templates/default.j2
     dest: "/etc/apache2/sites-available/{{ name_vh }}" 
 
 - name: Создание симлинка

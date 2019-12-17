@@ -1,4 +1,4 @@
-- hosts: dit-dev-rel
+- hosts: localhost
 #  vars:
 #    root_www:
 #      - "/var/www/html/"
@@ -10,6 +10,8 @@
 #      - "/etc/apache2/sites-available/"
 #    se:
 #      - "/etc/apache2/sites-enabled/"
+  vars:
+    -  ansible_become_pass: "<tljdsqL0rnjh"
   become: yes
   become_user: root
   become_method: sudo
